@@ -75,18 +75,21 @@ col2.metric("Avg rating", f"{filtered['rating'].mean():.2f}")
 col3.metric("Brands", filtered["brand"].nunique())
 col4.metric("Products", filtered["product_name"].nunique())
 
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "Dashboard",
     "Pain Points",
     "AI Summary",
-    "Ask the Data"
+    "Ask the Data",
+    "Trend Tracking",
+    "Product Risk",
+    "Live Product Monitor"
 ])
 
 with tab1:
     st.subheader("Ratings by Brand")
     brand_rating = filtered.groupby("brand", as_index=False)["rating"].mean()
     fig = px.bar(brand_rating, x="brand", y="rating", text_auto=".2f")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     st.subheader("Feature Mentions by Sentiment")
     summary = feature_summary(filtered)
@@ -98,7 +101,7 @@ with tab1:
         facet_col="category",
         barmode="group"
     )
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width="stretch")
 
     st.subheader("Raw Reviews")
     st.dataframe(
@@ -106,13 +109,13 @@ with tab1:
             "review_id", "product_name", "brand", "category", "rating",
             "price", "feature_tags", "sentiment_label", "review_text"
         ]],
-        use_container_width=True
+        width="stretch"
     )
 
 with tab2:
     st.subheader("Top Pain Points")
     pain = top_pain_points(filtered, top_n=15)
-    st.dataframe(pain, use_container_width=True)
+    st.dataframe(pain, width="stretch")
 
     if not pain.empty:
         fig3 = px.bar(
@@ -122,7 +125,7 @@ with tab2:
             color="brand",
             hover_data=["category", "avg_rating"]
         )
-        st.plotly_chart(fig3, use_container_width=True)
+        st.plotly_chart(fig3, width="stretch")
 
         st.subheader("Recommended Business Actions")
 
@@ -202,3 +205,309 @@ with tab4:
         with st.spinner("Searching reviews and generating answer..."):
             answer = rag_answer(filtered, question, api_key=OPENAI_API_KEY)
         st.markdown(answer)
+
+
+with tab5:
+    st.subheader("Product-Level Trend Tracking")
+    st.caption("Tracks review volume, average rating, complaint themes, and product risk over time.")
+
+    trend_df = filtered.copy()
+    trend_df["review_date"] = pd.to_datetime(trend_df["review_date"], errors="coerce")
+    trend_df = trend_df.dropna(subset=["review_date"])
+
+    if trend_df.empty:
+        st.warning("No valid review dates found for trend tracking.")
+    else:
+        trend_df["review_month"] = trend_df["review_date"].dt.to_period("M").dt.to_timestamp()
+
+        st.markdown("### Review Volume Over Time")
+
+        monthly_volume = (
+            trend_df.groupby(["review_month", "category"])
+            .size()
+            .reset_index(name="review_count")
+        )
+
+        fig_volume = px.line(
+            monthly_volume,
+            x="review_month",
+            y="review_count",
+            color="category",
+            markers=True
+        )
+
+        st.plotly_chart(fig_volume, width="stretch")
+
+        st.markdown("### Average Rating Over Time")
+
+        monthly_rating = (
+            trend_df.groupby(["review_month", "category"])
+            .agg(avg_rating=("rating", "mean"))
+            .reset_index()
+        )
+
+        fig_rating = px.line(
+            monthly_rating,
+            x="review_month",
+            y="avg_rating",
+            color="category",
+            markers=True
+        )
+
+        st.plotly_chart(fig_rating, width="stretch")
+
+        st.markdown("### Product Risk Score")
+
+        product_risk = (
+            trend_df.groupby(["brand", "product_name", "category"])
+            .agg(
+                review_count=("review_id", "count"),
+                avg_rating=("rating", "mean"),
+                negative_or_mixed_share=(
+                    "sentiment_label",
+                    lambda x: x.isin(["negative", "mixed"]).mean()
+                )
+            )
+            .reset_index()
+        )
+
+        product_risk["risk_score"] = (
+            product_risk["review_count"]
+            * product_risk["negative_or_mixed_share"]
+            * (5 - product_risk["avg_rating"])
+        )
+
+        product_risk = product_risk.sort_values("risk_score", ascending=False)
+
+        st.dataframe(
+            product_risk,
+            width="stretch"
+        )
+
+        st.markdown("### Complaint Theme Trends")
+
+        exploded_trends = explode_features(trend_df)
+
+        top_features = (
+            exploded_trends.groupby("feature_tags")
+            .size()
+            .reset_index(name="mentions")
+            .sort_values("mentions", ascending=False)
+            .head(6)["feature_tags"]
+            .tolist()
+        )
+
+        feature_trends = exploded_trends[
+            exploded_trends["feature_tags"].isin(top_features)
+        ]
+
+        monthly_features = (
+            feature_trends.groupby(["review_month", "feature_tags"])
+            .size()
+            .reset_index(name="mentions")
+        )
+
+        fig_features = px.line(
+            monthly_features,
+            x="review_month",
+            y="mentions",
+            color="feature_tags",
+            markers=True
+        )
+
+        st.plotly_chart(fig_features, width="stretch")
+
+        st.markdown("### How to Interpret This")
+        st.markdown(
+            """
+- **Rising review volume** can indicate growing customer attention or issue visibility.
+- **Declining average rating** can signal product quality, support, or expectation gaps.
+- **High product risk score** means a product has many reviews, a high negative/mixed share, and lower ratings.
+- **Complaint theme trends** help teams see whether issues like durability, price/value, or support are getting worse over time.
+"""
+        )
+
+
+with tab6:
+    st.subheader("Product Risk Dashboard")
+    st.caption("Identifies products with the strongest risk signal based on review volume, rating severity, and negative/mixed review share.")
+
+    risk_df = filtered.copy()
+
+    if risk_df.empty:
+        st.warning("No data available for product risk analysis.")
+    else:
+        product_risk = (
+            risk_df.groupby(["brand", "product_name", "category"])
+            .agg(
+                review_count=("review_id", "count"),
+                avg_rating=("rating", "mean"),
+                negative_mixed_share=(
+                    "sentiment_label",
+                    lambda x: x.isin(["negative", "mixed"]).mean()
+                )
+            )
+            .reset_index()
+        )
+
+        product_risk["risk_score"] = (
+            product_risk["review_count"]
+            * product_risk["negative_mixed_share"]
+            * (5 - product_risk["avg_rating"])
+        )
+
+        product_risk["priority"] = product_risk["risk_score"].apply(
+            lambda x: "High" if x >= product_risk["risk_score"].quantile(0.75)
+            else ("Medium" if x >= product_risk["risk_score"].quantile(0.40) else "Monitor")
+        )
+
+        product_risk = product_risk.sort_values("risk_score", ascending=False)
+
+        st.markdown("### Highest-Risk Products")
+        st.dataframe(product_risk, width="stretch")
+
+        fig_risk = px.scatter(
+            product_risk,
+            x="avg_rating",
+            y="negative_mixed_share",
+            size="review_count",
+            color="priority",
+            hover_data=["brand", "product_name", "category", "risk_score"],
+            title="Product Risk: Rating vs Negative/Mixed Review Share"
+        )
+        st.plotly_chart(fig_risk, width="stretch")
+
+        top = product_risk.iloc[0]
+
+        st.markdown("### Executive Risk Takeaway")
+        st.markdown(
+            f"""
+The highest-risk product signal is **{top['brand']} / {top['product_name']}** in **{top['category']}**.
+
+- Review count: **{int(top['review_count'])}**
+- Average rating: **{top['avg_rating']:.2f}**
+- Negative/mixed review share: **{top['negative_mixed_share']:.0%}**
+- Risk score: **{top['risk_score']:.2f}**
+
+This product should be reviewed first because it combines customer volume, lower satisfaction, and repeated negative or mixed feedback.
+"""
+        )
+
+
+with tab7:
+    st.subheader("Live Product Monitor")
+    st.caption(
+        "API-ready marketplace monitoring layer for product price, rating, review count, "
+        "sales-rank movement, and competitive signals."
+    )
+
+    live_path = DATA_DIR / "live_product_monitor_sample.csv"
+
+    if not live_path.exists():
+        st.warning("Missing data/live_product_monitor_sample.csv. Run the setup command to generate it.")
+    else:
+        live_df = pd.read_csv(live_path)
+        live_df["snapshot_date"] = pd.to_datetime(live_df["snapshot_date"])
+
+        latest_date = live_df["snapshot_date"].max()
+        latest = live_df[live_df["snapshot_date"] == latest_date].copy()
+
+        st.info(
+            "Demo note: this sample file is structured like output from a marketplace-data API. "
+            "In production, the same table could be populated from a product-monitoring API."
+        )
+
+        monitor_categories = sorted(latest["category"].dropna().unique())
+        monitor_brands = sorted(latest["brand"].dropna().unique())
+
+        mcol1, mcol2 = st.columns(2)
+        selected_monitor_categories = mcol1.multiselect(
+            "Monitor category",
+            monitor_categories,
+            default=monitor_categories
+        )
+        selected_monitor_brands = mcol2.multiselect(
+            "Monitor brand",
+            monitor_brands,
+            default=monitor_brands
+        )
+
+        monitor = latest[
+            latest["category"].isin(selected_monitor_categories)
+            & latest["brand"].isin(selected_monitor_brands)
+        ].copy()
+
+        if monitor.empty:
+            st.warning("No monitored products match the selected filters.")
+        else:
+            # Competitive score: higher means stronger marketplace position.
+            monitor["market_strength_score"] = (
+                monitor["current_rating"] * 20
+                + monitor["review_count_change_30d"] / 100
+                - monitor["sales_rank"] / 5
+            ).round(2)
+
+            k1, k2, k3, k4 = st.columns(4)
+            k1.metric("Monitored Products", len(monitor))
+            k2.metric("Avg Rating", f"{monitor['current_rating'].mean():.2f}")
+            k3.metric("Total Reviews", f"{int(monitor['review_count'].sum()):,}")
+            k4.metric("Avg 30D Price Change", f"${monitor['price_change_30d'].mean():.2f}")
+
+            st.subheader("Latest Marketplace Snapshot")
+            st.dataframe(
+                monitor[[
+                    "asin", "brand", "product_name", "category",
+                    "current_price", "list_price", "current_rating",
+                    "review_count", "sales_rank", "price_change_30d",
+                    "review_count_change_30d", "market_strength_score"
+                ]].sort_values("market_strength_score", ascending=False),
+                width="stretch"
+            )
+
+            st.subheader("Price Position by Product")
+            price_fig = px.bar(
+                monitor.sort_values("current_price", ascending=False),
+                x="product_name",
+                y="current_price",
+                color="brand",
+                hover_data=["category", "current_rating", "review_count", "sales_rank"],
+                text_auto=".2f"
+            )
+            st.plotly_chart(price_fig, width="stretch")
+
+            st.subheader("30-Day Review Count Growth")
+            review_growth_fig = px.bar(
+                monitor.sort_values("review_count_change_30d", ascending=False),
+                x="product_name",
+                y="review_count_change_30d",
+                color="brand",
+                hover_data=["category", "current_rating", "sales_rank"]
+            )
+            st.plotly_chart(review_growth_fig, width="stretch")
+
+            st.subheader("Competitive Position Map")
+            scatter_fig = px.scatter(
+                monitor,
+                x="current_rating",
+                y="sales_rank",
+                size="review_count",
+                color="brand",
+                hover_name="product_name",
+                hover_data=["category", "current_price", "review_count_change_30d"],
+            )
+            scatter_fig.update_yaxes(autorange="reversed", title="Sales Rank, lower is better")
+            st.plotly_chart(scatter_fig, width="stretch")
+
+            strongest = monitor.sort_values("market_strength_score", ascending=False).iloc[0]
+            fastest = monitor.sort_values("review_count_change_30d", ascending=False).iloc[0]
+            biggest_price_drop = monitor.sort_values("price_change_30d").iloc[0]
+
+            st.subheader("Executive Marketplace Takeaway")
+            st.markdown(
+                f"""
+- **Strongest current marketplace signal:** {strongest['brand']} {strongest['product_name']} with a market strength score of **{strongest['market_strength_score']:.2f}**.
+- **Fastest review-count growth:** {fastest['brand']} {fastest['product_name']} gained **{int(fastest['review_count_change_30d']):,}** reviews over the monitored period.
+- **Largest price drop:** {biggest_price_drop['brand']} {biggest_price_drop['product_name']} changed by **${biggest_price_drop['price_change_30d']:.2f}** versus list price.
+- **Business use case:** this tab connects review intelligence with marketplace movement, helping teams monitor competitor pricing, customer traction, and category-level product risk.
+"""
+            )

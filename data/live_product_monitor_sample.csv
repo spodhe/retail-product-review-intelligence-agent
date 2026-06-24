@@ -1,0 +1,49 @@
+snapshot_date,asin,brand,product_name,category,current_price,list_price,current_rating,review_count,sales_rank,price_change_30d,review_count_change_30d,rating_change_30d,source_note
+2026-05-19,B0SHARKVAC1,Shark,Shark Cordless Detect Pro,Vacuum,339.99,349.99,4.2,18422,30,-10.0,0,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0SHARKVAC1,Shark,Shark Cordless Detect Pro,Vacuum,329.99,349.99,4.3,18706,23,-20.0,284,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0SHARKVAC1,Shark,Shark Cordless Detect Pro,Vacuum,359.99,349.99,4.2,18676,33,10.0,254,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0SHARKVAC1,Shark,Shark Cordless Detect Pro,Vacuum,329.99,349.99,4.2,19760,25,-20.0,1338,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0SHARKVAC1,Shark,Shark Cordless Detect Pro,Vacuum,349.99,349.99,4.3,18974,25,0.0,552,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0SHARKVAC1,Shark,Shark Cordless Detect Pro,Vacuum,339.99,349.99,4.2,19782,34,-10.0,1360,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-19,B0SHARKNAV2,Shark,Shark Navigator Lift-Away,Vacuum,189.99,199.99,4.5,42110,21,-10.0,0,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0SHARKNAV2,Shark,Shark Navigator Lift-Away,Vacuum,209.99,199.99,4.6,42426,19,10.0,316,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0SHARKNAV2,Shark,Shark Navigator Lift-Away,Vacuum,209.99,199.99,4.5,42338,19,10.0,228,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0SHARKNAV2,Shark,Shark Navigator Lift-Away,Vacuum,214.99,199.99,4.4,43577,17,15.0,1467,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0SHARKNAV2,Shark,Shark Navigator Lift-Away,Vacuum,179.99,199.99,4.6,42506,22,-20.0,396,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0SHARKNAV2,Shark,Shark Navigator Lift-Away,Vacuum,189.99,199.99,4.5,42900,20,-10.0,790,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-19,B0DYSONV8X,Dyson,Dyson V8 Cordless Vacuum,Vacuum,469.99,469.99,4.5,32240,26,0.0,0,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0DYSONV8X,Dyson,Dyson V8 Cordless Vacuum,Vacuum,484.99,469.99,4.4,32486,18,15.0,246,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0DYSONV8X,Dyson,Dyson V8 Cordless Vacuum,Vacuum,449.99,469.99,4.3,32682,26,-20.0,442,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0DYSONV8X,Dyson,Dyson V8 Cordless Vacuum,Vacuum,479.99,469.99,4.5,32558,23,10.0,318,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0DYSONV8X,Dyson,Dyson V8 Cordless Vacuum,Vacuum,479.99,469.99,4.5,34304,22,10.0,2064,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0DYSONV8X,Dyson,Dyson V8 Cordless Vacuum,Vacuum,479.99,469.99,4.3,34115,15,10.0,1875,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-19,B0NINJAAF1,Ninja,Ninja Air Fryer Max XL,Air Fryer,99.99,129.99,4.8,54231,16,-30.0,0,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0NINJAAF1,Ninja,Ninja Air Fryer Max XL,Air Fryer,139.99,129.99,4.8,54781,14,10.0,550,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0NINJAAF1,Ninja,Ninja Air Fryer Max XL,Air Fryer,129.99,129.99,4.7,55283,8,0.0,1052,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0NINJAAF1,Ninja,Ninja Air Fryer Max XL,Air Fryer,119.99,129.99,4.6,55461,18,-10.0,1230,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0NINJAAF1,Ninja,Ninja Air Fryer Max XL,Air Fryer,139.99,129.99,4.6,55327,16,10.0,1096,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0NINJAAF1,Ninja,Ninja Air Fryer Max XL,Air Fryer,139.99,129.99,4.8,55886,13,10.0,1655,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-19,B0INSTANTAF,Instant,Instant Vortex Plus,Air Fryer,134.99,119.99,4.5,38910,24,15.0,0,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0INSTANTAF,Instant,Instant Vortex Plus,Air Fryer,109.99,119.99,4.6,39209,19,-10.0,299,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0INSTANTAF,Instant,Instant Vortex Plus,Air Fryer,99.99,119.99,4.5,39320,26,-20.0,410,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0INSTANTAF,Instant,Instant Vortex Plus,Air Fryer,89.99,119.99,4.7,40542,24,-30.0,1632,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0INSTANTAF,Instant,Instant Vortex Plus,Air Fryer,119.99,119.99,4.7,39538,13,0.0,628,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0INSTANTAF,Instant,Instant Vortex Plus,Air Fryer,99.99,119.99,4.7,39640,26,-20.0,730,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-19,B0NINJABLDR,Ninja,Ninja Foodi Power Blender,Blender,129.99,159.99,4.3,21880,27,-30.0,0,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0NINJABLDR,Ninja,Ninja Foodi Power Blender,Blender,129.99,159.99,4.4,22006,17,-30.0,126,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0NINJABLDR,Ninja,Ninja Foodi Power Blender,Blender,169.99,159.99,4.4,23132,26,10.0,1252,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0NINJABLDR,Ninja,Ninja Foodi Power Blender,Blender,169.99,159.99,4.5,23296,18,10.0,1416,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0NINJABLDR,Ninja,Ninja Foodi Power Blender,Blender,129.99,159.99,4.3,24248,23,-30.0,2368,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0NINJABLDR,Ninja,Ninja Foodi Power Blender,Blender,169.99,159.99,4.4,23840,23,10.0,1960,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-19,B0VITAMIXE,Vitamix,Vitamix Explorian,Blender,339.99,349.99,4.5,28760,24,-10.0,0,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0VITAMIXE,Vitamix,Vitamix Explorian,Blender,319.99,349.99,4.5,29162,14,-30.0,402,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0VITAMIXE,Vitamix,Vitamix Explorian,Blender,364.99,349.99,4.6,29882,15,15.0,1122,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0VITAMIXE,Vitamix,Vitamix Explorian,Blender,339.99,349.99,4.5,29297,24,-10.0,537,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0VITAMIXE,Vitamix,Vitamix Explorian,Blender,339.99,349.99,4.7,29308,11,-10.0,548,0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0VITAMIXE,Vitamix,Vitamix Explorian,Blender,359.99,349.99,4.6,29240,23,10.0,480,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-19,B0KEURIGKE,Keurig,Keurig K-Elite Coffee Maker,Coffee Maker,164.99,149.99,4.6,46920,16,15.0,0,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-05-26,B0KEURIGKE,Keurig,Keurig K-Elite Coffee Maker,Coffee Maker,164.99,149.99,4.5,47468,6,15.0,548,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-02,B0KEURIGKE,Keurig,Keurig K-Elite Coffee Maker,Coffee Maker,139.99,149.99,4.6,47524,16,-10.0,604,-0.1,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-09,B0KEURIGKE,Keurig,Keurig K-Elite Coffee Maker,Coffee Maker,164.99,149.99,4.6,48663,13,15.0,1743,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-16,B0KEURIGKE,Keurig,Keurig K-Elite Coffee Maker,Coffee Maker,149.99,149.99,4.5,48012,5,0.0,1092,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
+2026-06-23,B0KEURIGKE,Keurig,Keurig K-Elite Coffee Maker,Coffee Maker,119.99,149.99,4.6,49605,6,-30.0,2685,0.0,Sample API-ready marketplace metrics; designed for Keepa/API ingestion
