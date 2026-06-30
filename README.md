@@ -1,22 +1,48 @@
 # Retail Product Review Intelligence & Marketplace Monitor
 
-A SharkNinja-targeted AI and analytics portfolio project built with Python, Streamlit, pandas, Plotly, and scikit-learn.
+An AI-assisted analytics dashboard for understanding consumer product reviews, product risk signals, and marketplace movement.
 
 ## Project Overview
 
-This project analyzes consumer product reviews and marketplace-style product metrics to help business teams identify customer pain points, prioritize product risks, and monitor competitive movement across appliance categories such as vacuums, air fryers, blenders, and coffee makers.
+Consumer product teams receive large volumes of customer reviews, but it can be difficult to quickly identify the recurring issues that affect ratings, satisfaction, returns, and brand perception.
 
-The app is designed for product, marketing, customer experience, and analytics teams that need to turn messy review and marketplace data into actionable business recommendations.
+This project analyzes product review data across consumer product categories, classifies reviews into feature-level complaint themes, summarizes top pain points, and recommends business actions for Product, Quality, Marketing, and Customer Experience teams.
+
+The project also includes a marketplace-monitoring layer designed to track product price, rating, review count, sales rank, and competitive movement using API-ready data structures.
+
+## Screenshots
+
+### Review Intelligence Dashboard
+
+![Review Intelligence Dashboard](screenshots/dashboard.png)
+
+### Ask the Data
+
+![Ask the Data](screenshots/ask_the_data.png)
+
+### Business Action Recommendations
+
+![Business Actions](screenshots/business_actions.png)
+
+### Marketplace Monitor Overview
+
+![Marketplace Monitor Overview](screenshots/live_monitor_overview.png)
+
+### Competitive Position Map
+
+![Competitive Position Map](screenshots/live_competitive_position.png)
 
 ## Key Features
 
-* Product review dashboard with brand, category, rating, and sentiment filters
-* Feature-level complaint tagging across themes such as durability, price/value, suction/performance, battery, noise, customer support, and ease of cleaning
-* Natural-language Q&A layer using TF-IDF retrieval to answer business questions with review evidence
-* Product risk scoring based on review volume, average rating, and negative/mixed review share
-* Trend tracking for review volume, ratings, and complaint themes over time
-* Business action recommendations mapped to Product, Quality, Marketing, and Customer Experience teams
-* API-ready marketplace monitor for product price, rating, review count, sales rank, and competitive movement
+* Ingests product review CSV data and standardizes it for analysis
+* Classifies reviews into feature-level complaint themes such as durability, price/value, suction/performance, battery, noise, customer support, and ease of cleaning
+* Uses an LLM-powered review Q&A layer with retrieved review evidence
+* Supports OpenAI and Anthropic API configuration through environment variables
+* Falls back to local TF-IDF retrieval when no LLM API key is configured
+* Scores product risk using review volume, average rating, and negative/mixed review share
+* Tracks review volume, rating movement, and complaint themes over time
+* Maps recurring issues to business actions for Product, Quality, Marketing, and Customer Experience teams
+* Includes an API-ready marketplace monitor for product price, rating, review count, sales rank, and competitive movement
 
 ## Example Business Questions
 
@@ -24,8 +50,9 @@ The app is designed for product, marketing, customer experience, and analytics t
 * What are the top complaints about Shark vacuums?
 * Which products have durability issues?
 * Which brands have price/value problems?
-* Which products show the highest marketplace risk?
+* Which products show the highest product risk?
 * Which competitors are gaining review traction?
+* What actions should Product or Quality teams prioritize?
 
 ## Tech Stack
 
@@ -35,13 +62,16 @@ The app is designed for product, marketing, customer experience, and analytics t
 * NumPy
 * Plotly
 * scikit-learn
+* OpenAI / Anthropic API support
 * TF-IDF retrieval
 * Rule-based feature tagging
 * CSV-based data ingestion
 
 ## Data Note
 
-The review intelligence workflow uses a clean sample consumer-product review dataset created to simulate realistic patterns across appliance categories. The marketplace monitor uses an API-ready sample data structure designed to represent fields that could be populated from product-monitoring APIs such as Keepa or similar marketplace data providers.
+The review analytics workflow supports uploaded product review datasets as well as local sample data for demonstration. The sample review data is structured to simulate realistic consumer-product feedback across categories such as vacuums, air fryers, blenders, and coffee makers.
+
+The marketplace monitor uses an API-ready sample dataset designed to represent fields that could be populated from marketplace product-data APIs, including ASIN, price, rating, review count, sales rank, and recent movement metrics.
 
 No private company data is used.
 
@@ -54,6 +84,28 @@ pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
+## Optional LLM Setup
+
+Create a local `.env` file and add either an OpenAI or Anthropic API key.
+
+OpenAI example:
+
+```bash
+LLM_PROVIDER=openai
+OPENAI_API_KEY=your_key_here
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+Anthropic example:
+
+```bash
+LLM_PROVIDER=anthropic
+ANTHROPIC_API_KEY=your_key_here
+ANTHROPIC_MODEL=claude-3-5-sonnet-latest
+```
+
+When no API key is configured, the app uses local retrieval fallback so the dashboard remains usable.
+
 ## Business Impact
 
-This project demonstrates how AI-assisted analytics can help consumer product companies monitor customer feedback, detect recurring product issues, compare competitors, and translate review signals into actionable recommendations.
+This project demonstrates how AI-assisted analytics can help consumer product teams monitor customer feedback, detect recurring product issues, compare marketplace movement, and translate review signals into actionable recommendations.
